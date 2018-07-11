@@ -25,7 +25,7 @@ productRouter.post('/add', Admin.verifyToken, function(req, res){
 		available = 0;
 	}
 	if(id_promotion === undefined || id_promotion === 0 || id_promotion === ""){
-		id_promotion = null;
+		id_promotion = 0;
 	}
 	ProductController.add(name, price, highlight, category, available, id_promotion)
 	.then((product) =>{

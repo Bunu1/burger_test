@@ -31,6 +31,8 @@ function displayBackContent(type){
 
 function sendProm(){
 
+	var errorlog = document.getElementById("errorLogProm");
+
 	var id = document.getElementById("id_prom").value;
 	var description = document.getElementById("description").value;
 	var prerequisite = document.getElementById("prerequisite").value;
@@ -38,9 +40,14 @@ function sendProm(){
 	var start_date = document.getElementById("start_date").value;
 	var end_date = document.getElementById("end_date").value;
 
+
+
 	if(description === "" || prerequisite === "" || start_date === ""  || end_date === "" || available === "" ){
-		alert("Champ(s) vide(s)");
+		errorlog.innerHTML = '<div class="alert alert-warning"><strong>Champ(s) manquant(s)</strong></div>';
+		errorlog.hidden = false;
 	}else{
+		errorlog.innerHTML = '';
+		errorlog.hidden = true;
 		if(id !== ""){
 			var request = new XMLHttpRequest();
 
@@ -88,6 +95,8 @@ function sendProm(){
 
 function sendProd(){
 
+	var errorlog = document.getElementById("errorLogProd");
+
 	var id = document.getElementById("id_prod").value;
 	var name = document.getElementById("name").value;
 	var price = document.getElementById("price").value;
@@ -95,10 +104,15 @@ function sendProd(){
 	var category = document.getElementById("category").value;
 	var available = document.getElementById("available").value;
 	var id_promotion = document.getElementById("id_promotion").value;
-
+	if(id_promotion === "")id_promotion = 0;
 	if(name === "" || price === "" || highlight === ""  || category === "" || available === "" ){
-		alert("Champ(s) vide(s)");
+		errorlog.innerHTML = '<div class="alert alert-warning"><strong>Champ(s) manquant(s)</strong></div>';
+		errorlog.hidden = false;
 	}else{
+
+
+		errorlog.innerHTML = '';
+		errorlog.hidden = true;
 		if(id !== ""){
 			var request = new XMLHttpRequest();
 
@@ -151,6 +165,10 @@ function sendProd(){
 
 function sendMenu(){
 
+
+	var errorlog = document.getElementById("errorLogMenu");
+	
+
 	var id = document.getElementById("id_menu").value;
 	var name = document.getElementById("name").value;
 	var description = document.getElementById("description").value;
@@ -160,8 +178,11 @@ function sendMenu(){
 	var id_promotion = document.getElementById("id_promotion").value;
 
 	if(name === "" || description === "" || highlight === ""  || size === "" || available === "" ){
-		alert("Champ(s) vide(s)");
+		errorlog.innerHTML = '<div class="alert alert-warning"><strong>Champ(s) manquant(s)</strong></div>';
+		errorlog.hidden = false;
 	}else{
+		errorlog.innerHTML = '';
+		errorlog.hidden = true;
 		if(id !== ""){
 			var request = new XMLHttpRequest();
 

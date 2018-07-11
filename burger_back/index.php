@@ -52,7 +52,7 @@
 </html>
 <script src="async.js"></script>
 <script langauge="javascript">
-    window.setInterval("refreshDiv()", 3000);
+    window.setInterval("refreshDiv()", 600000);
     function refreshDiv(){
         getCommand();
     }

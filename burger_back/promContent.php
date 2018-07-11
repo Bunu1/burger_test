@@ -21,6 +21,8 @@
 <br><br>
 <div class="row">
   <div class="col-md-12">
+    <div id="errorLogProm" class="offset-md-3" hidden>
+    </div>
     <form>
       <div class="form-row">
         <div class="form-group offset-md-3 col-md-2">
