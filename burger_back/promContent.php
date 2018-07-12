@@ -46,11 +46,11 @@
       <div class="form-row">
         <div class="form-group offset-md-5 col-md-2">
           <label>Date de début</label>
-          <input class="form-control" type="date" name="start_date" id="start_date">
+          <input class="form-control" type="text" name="start_date" id="start_date">
         </div>
         <div class="form-group col-md-2">
           <label>Date de fin</label>
-          <input class="form-control" type="date" name="end_date" id="end_date">
+          <input class="form-control" type="text" name="end_date" id="end_date">
         </div>
       </div>
     </form>
