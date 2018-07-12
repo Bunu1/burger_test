@@ -25,9 +25,11 @@ commandRouter.get('/getCommand', function(req,res){
 		res.status(400).end();
 		return;
 	}
+	
 	CommandController.getCommand(req.query.id_command)
-	.then((commands) => {
-		res.json(commands);
+	.then((command) => {
+		console.log(command)
+		res.status(200).json(command);
 	})
 	.catch((err) =>{
 		console.log(err);
@@ -36,12 +38,15 @@ commandRouter.get('/getCommand', function(req,res){
 });
 
 commandRouter.post('/add', function(req, res){
-	if( req.body.commandProduct === undefined || req.body.total === undefined){
+	if(req.body.commandProduct === undefined || req.body.total === undefined){
 		res.status(400).end();
 		return;
 	}
+	
+	console.log(req.body.total + " " + req.body.date);
 	CommandController.add(req.body.total, req.body.date, req.body.commandProduct)
 	.then((command) =>{
+		console.log(command);
 		res.status(201).json(command);
 	})
 	.catch((err) =>{
@@ -49,13 +54,21 @@ commandRouter.post('/add', function(req, res){
 	})
 });
 
-commandRouter.post('/addInCommand', Admin.verifyToken, function(req, res){
+commandRouter.post('/addInCommand', /*Admin.verifyToken,*/ function(req, res){
 	if(req.body.id_command === undefined || req.body.id_product === undefined){
 		res.status(400).end();
 		return;
 	}
-	CommandController.addInCommand(req.body.id_command, req.body.id_product, req.body.id_menu);
-	res.status(204).end();
+	
+	if(req.body.id_menu === undefined) req.body.id_menu = undefined;
+	
+	CommandController.addInCommand(req.body.id_command, req.body.id_product, req.body.id_menu)
+	.then((p) => {
+		res.status(201).json(p);
+	})
+	.catch((err) => {
+		res.status(500).end();
+	});
 });
 
 commandRouter.post('/update', Admin.verifyToken, function(req, res){

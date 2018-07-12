@@ -28,9 +28,7 @@ CommandController.getCommand = function(id_command){
 	const where = {};
 	const options = {};
 	if(id_command !== undefined){
-		where.id_command = {
-			[Op.like]: `${id_command}%`
-		}
+		where.id_command = id_command
 	}
 	options.where = where;
 	return ModelIndex.ProductCommand.findAll(options);
@@ -45,20 +43,20 @@ CommandController.add = function(total,date,commandProduct){
 	.then(function(command) {
 		for(let i = 0; i < commandProduct.length; i++){
 			ModelIndex.ProductCommand.create({
-		      id_product: commandProduct[i].id_product,
-		      id_command: command.dataValues.id,
-		      id_menu: commandProduct[i].id_menu
-		    });
+				id_product: commandProduct[i].id_product,
+				id_command: command.dataValues.id,
+				id_menu: commandProduct[i].id_menu
+			});
 		}
 	});
 }
 
 CommandController.addInCommand = function(id_command, id_product, id_menu){
 	return ModelIndex.ProductCommand.create({
-		      id_product: id_product,
-		      id_command: id_command,
-		      id_menu: id_menu
-		    });
+		id_product: id_product,
+		id_command: id_command,
+		id_menu: id_menu
+	});
 }
 
 CommandController.update = function(id, total, done, date){

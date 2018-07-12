@@ -21,42 +21,36 @@ adminRouter.post('/login', function(req, res) {
   
   AdminController.login(login, password)
   .then(admn => {
-    if(admn) {
-      console.log("res = " + admn.id);
-      console.log("res = " + admn.login);
-      console.log("res = " + admn.password);
-      
+    if(admn) {      
       var token = jwt.sign({admn}, "very_secret_key");
       fs.writeFile(".token", token, function(err) {
-        if(err) {
-          throw err;
-        }
-      });
-      res.status(201).end();
+				if(err) {
+					res.status(500).end();	
+				}
+				res.status(201).json({ "id": admn.id, "token": token });
+			});
     }else{
-      console.error(err);
-      res.status(500).end();
+      res.status(404).end();
     }
   });
 });
 
-adminRouter.post('/dc', function(req, res) {
+adminRouter.get('/dc', function(req, res) {
   try {
     fs.statSync('.token');
     fs.unlink('.token', (err) => {
       if (err) {
         res.status(500).end();
-        throw err;
       }
+			res.status(200).end();
     });
-    res.status(201).end();
   } catch(err) {
     res.sendStatus(500).end();
   }
 });
 
 adminRouter.post('/oui',  AdminController.verifyToken, (req, res) => {
-  res.json("bite en bois du cul ?");  
+  res.status(200).json({"msg": "test"});  
 });
 
 module.exports = adminRouter;
