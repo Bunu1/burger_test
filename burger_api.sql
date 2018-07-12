@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 11 Juillet 2018 à 08:34
+-- Généré le :  Jeu 12 Juillet 2018 à 12:59
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -164,11 +164,12 @@ INSERT INTO `product` (`id`, `name`, `price`, `highlight`, `category`, `availabl
 (1, 'burger1', 10, 1, 1, 1, 2),
 (2, 'frite', 1, 1, 2, 1, 2),
 (3, 'coca - 25', 3, 1, 3, 1, 2),
-(4, 'burger2', 5, 1, 1, 1, NULL),
-(13, 'BIG FAT', 2.5, 0, 1, 1, NULL),
-(14, 'glace a la fraise', 120, 1, 4, 1, NULL),
-(15, 'Pomme', 3, 1, 5, 1, NULL),
-(16, 'esgi burger', -5, 1, 1, 1, NULL);
+(4, 'burger2', 5, 1, 1, 1, 1000),
+(13, 'BIG FAT', 2.5, 0, 1, 1, 1000),
+(14, 'glace a la fraise', 1202, 1, 4, 1, 2),
+(15, 'Pomme', 3, 1, 5, 1, 1000),
+(16, 'esgi burger', -5, 1, 1, 1, 1000),
+(17, 'arez', 59, 1, 1, 1, 1000);
 
 -- --------------------------------------------------------
 
@@ -259,8 +260,9 @@ CREATE TABLE `promotion` (
 --
 
 INSERT INTO `promotion` (`id`, `description`, `prerequisite`, `available`, `start_date`, `end_date`) VALUES
-(1, 'Navigo', 'IL FAUDRA LA CARTE NAVIGO', 1, NULL, NULL),
-(2, 'very burger', 'il faut de l\'argent', 1, NULL, NULL);
+(1, 'Navigo', 'IL FAUDRA LA CARTE NAVIGO', 1, '2018-04-11', '2018-05-10'),
+(2, 'very', 'salope', 1, '2018-07-06', '2018-07-10'),
+(1000, 'Default', 'Default', 1, NULL, NULL);
 
 --
 -- Index pour les tables exportées
@@ -343,7 +345,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT pour la table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT pour la table `productcommand`
 --
@@ -353,7 +355,7 @@ ALTER TABLE `productcommand`
 -- AUTO_INCREMENT pour la table `promotion`
 --
 ALTER TABLE `promotion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1001;
 --
 -- Contraintes pour les tables exportées
 --
