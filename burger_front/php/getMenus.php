@@ -10,7 +10,7 @@
       if($count === 0) {
         echo "<div class='row'>";
       }
-      echo "<div class='food col-md-4' onclick='mdl_shw(this)' data-item='menu' data-id='" . $arr['id'] . "' data-value='" . $arr['name'] . "'>";
+      echo "<div class='food col-md-4 ".$arr['name']."' onclick='mdl_shw(this)' data-item='menu' data-id='" . $arr['id'] . "' data-value='" . $arr['name'] . "'>";
       ?>
         <figure class='mb-0'>
           <img src='images/menu.png' class='img-fluid'>

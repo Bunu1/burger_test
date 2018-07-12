@@ -34,7 +34,7 @@
   if(is_array($proms)) {
     foreach ($proms as $prom) {
       $arr = (array) $prom;
-      if($arr['available'] === 1 && $arr['id_promotion'] === NULL) {
+      if($arr['available'] === 1 && $arr['id_promotion'] === 1000) {
         if($arr['category'] === 1) $pic = "burger.jpg";
         else if($arr['category'] === 2) $pic = "frites.png";
         else $pic = "drink.jpg";

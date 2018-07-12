@@ -51,9 +51,10 @@
   </body>
 </html>
 <script src="async.js"></script>
-<script langauge="javascript">
-    /*window.setInterval("refreshDiv()", 3000);
+<script language="javascript">
+    getCommand();
+    window.setInterval("refreshDiv()", 3000);
     function refreshDiv(){
         getCommand();
-    }*/
+    }
 </script>

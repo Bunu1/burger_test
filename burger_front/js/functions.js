@@ -34,7 +34,6 @@ function getPromotions() {
 }
 
 function getHighlight() {
-  console.log("ici");
   $("#promo_select").hide();
   $("#display_title").html("A l'affiche");
   
@@ -84,9 +83,9 @@ function display_menu() {
 	$.each(menu, function(i, data) {
 		if(data.position === pos) {
 			if(data.position !== max_pos)
-				$("#modal_menu_display").append("<div onclick='add_product_to_temp(this); display_menu()' data-id='" + data.id + "' data-name='" + data.name + "' data-price='" + data.price + "'>" + data.name+  " - " + data.price + "</div><br>");
+				$("#modal_menu_display").append("<div class='"+data.name+"' onclick='add_product_to_temp(this); display_menu()' data-id='" + data.id + "' data-name='" + data.name + "' data-price='" + data.price + "'>" + data.name+  " - " + data.price + "</div><br>");
 			else {
-				$("#modal_menu_display").append("<div onclick='add_product_to_temp(this); update_cmd()' data-id='" + data.id + "' data-name='" + data.name + "' data-price='" + data.price + "'>" + data.name+  " - " + data.price + "</div><br>");
+				$("#modal_menu_display").append("<div class='"+data.name+"' onclick='add_product_to_temp(this); update_cmd()' data-id='" + data.id + "' data-name='" + data.name + "' data-price='" + data.price + "'>" + data.name+  " - " + data.price + "</div><br>");
 			}
 		}
 	});
