@@ -29,6 +29,20 @@ function displayBackContent(type){
 	request.send();
 }
 
+function checkAlphaNum(str){
+	var code, i, len;
+	for (i = 0, len = str.length; i < len; i++) {
+		code = str.charCodeAt(i);
+		if (!(code > 47 && code < 58) &&
+		    !(code > 64 && code < 91) &&
+		    !(code > 96 && code < 123)) {
+		  return false;
+		}
+	}
+	return true;
+}
+
+
 function sendProm(){
 
 	var errorlog = document.getElementById("errorLogProm");
@@ -40,58 +54,71 @@ function sendProm(){
 	var start_date = document.getElementById("start_date").value;
 	var end_date = document.getElementById("end_date").value;
 
-
-
+	var startD = new Date(start_date);
+	var endD = new Date(end_date);
 	if(description === "" || prerequisite === "" || start_date === ""  || end_date === "" || available === "" ){
 		errorlog.innerHTML = '<div class="alert alert-warning"><strong>Champ(s) manquant(s)</strong></div>';
 		errorlog.hidden = false;
 	}else{
-		errorlog.innerHTML = '';
-		errorlog.hidden = true;
-		if(id !== ""){
-			var request = new XMLHttpRequest();
-
-			request.onreadystatechange = function(){
-				if( request.readyState == 4 && request.status == 204 ){
-					window.location.reload(false); 
-				}
-			}
-
-			var json_data = {
-				"description": description,
-				"prerequisite": prerequisite,
-				"available": available,
-				"start_date": start_date,
-				"end_date": end_date
-			};
-			var formatted_json = JSON.stringify(json_data);
-
-			request.open("POST", "http://localhost:8080/promotion/"+id, true);
-			request.setRequestHeader("Content-type", "application/json");
-			request.send(formatted_json);
+		if(endD < startD) {
+			errorlog.innerHTML = '<div class="alert alert-warning"><strong>Dates incompatibles</strong></div>';
+			errorlog.hidden = false;
 		}else{
-			var request = new XMLHttpRequest();
 
-			request.onreadystatechange = function(){
-				if( request.readyState == 4 && request.status == 204 ){
-					window.location.reload(false); 
-				}
+			if(!checkAlphaNum(description) || !checkAlphaNum(prerequisite)){
+				errorlog.innerHTML = '<div class="alert alert-warning"><strong>Champ(s) de texte incompréhensibles</strong></div>';
+				errorlog.hidden = false;
 			}
-			var json_data = {
-				"description": description,
-				"prerequisite": prerequisite,
-				"available": available,
-				"start_date": start_date,
-				"end_date": end_date
-			};
-			var formatted_json = JSON.stringify(json_data);
+			else{
+				errorlog.innerHTML = '';
+				errorlog.hidden = true;
+				if(id !== ""){
+					var request = new XMLHttpRequest();
 
-			request.open("POST", "http://localhost:8080/promotion/", true);
-			request.setRequestHeader("Content-type", "application/json");
-			request.send(formatted_json);
-		}	
+					request.onreadystatechange = function(){
+						if( request.readyState == 4 && request.status == 204 ){
+							window.location.reload(false); 
+						}
+					}
+
+					var json_data = {
+						"description": description,
+						"prerequisite": prerequisite,
+						"available": available,
+						"start_date": start_date,
+						"end_date": end_date
+					};
+					var formatted_json = JSON.stringify(json_data);
+
+					request.open("POST", "http://localhost:8080/promotion/"+id, true);
+					request.setRequestHeader("Content-type", "application/json");
+					request.send(formatted_json);
+				}else{
+					var request = new XMLHttpRequest();
+
+					request.onreadystatechange = function(){
+						if( request.readyState == 4 && request.status == 204 ){
+							window.location.reload(false); 
+						}
+					}
+					var json_data = {
+						"description": description,
+						"prerequisite": prerequisite,
+						"available": available,
+						"start_date": start_date,
+						"end_date": end_date
+					};
+					var formatted_json = JSON.stringify(json_data);
+
+					request.open("POST", "http://localhost:8080/promotion/", true);
+					request.setRequestHeader("Content-type", "application/json");
+					request.send(formatted_json);
+				}		
+			}
+		}
 	}	
 }
+
 
 function sendProd(){
 
@@ -104,59 +131,72 @@ function sendProd(){
 	var category = document.getElementById("category").value;
 	var available = document.getElementById("available").value;
 	var id_promotion = document.getElementById("id_promotion").value;
-	if(id_promotion === "")id_promotion = 0;
+	if(id_promotion === "")id_promotion = 1000;
+
 	if(name === "" || price === "" || highlight === ""  || category === "" || available === "" ){
 		errorlog.innerHTML = '<div class="alert alert-warning"><strong>Champ(s) manquant(s)</strong></div>';
 		errorlog.hidden = false;
 	}else{
+		if(!checkAlphaNum(name)){
+			errorlog.innerHTML = '<div class="alert alert-warning"><strong>Champ(s) de texte incompréhensibles</strong></div>';
+			errorlog.hidden = false;
+		}
+		else{
+			if(isNan(price)){
+				errorlog.innerHTML = '<div class="alert alert-warning"><strong>Prix impossible</strong></div>';
+				errorlog.hidden = false;
+			}else{
 
+				errorlog.innerHTML = '';
+				errorlog.hidden = true;
+				if(id !== ""){
+					var request = new XMLHttpRequest();
 
-		errorlog.innerHTML = '';
-		errorlog.hidden = true;
-		if(id !== ""){
-			var request = new XMLHttpRequest();
+					request.onreadystatechange = function(){
+						if( request.readyState == 4 && request.status == 201 ){
+							window.location.reload(false); 
+						}
+					}
 
-			request.onreadystatechange = function(){
-				if( request.readyState == 4 && request.status == 201 ){
-					window.location.reload(false); 
+					var json_data = {
+						"id": id,
+						"name": name,
+						"price": price,
+						"priority": highlight,
+						"category": category,
+						"available": available,
+						"id_promotion": id_promotion
+					};
+					var formatted_json = JSON.stringify(json_data);
+
+					request.open("POST", "http://localhost:8080/product/update", true);
+					request.setRequestHeader("Content-type", "application/json");
+					request.send(formatted_json);
+				}else{
+					var request = new XMLHttpRequest();
+
+					request.onreadystatechange = function(){
+						if( request.readyState == 4 && request.status == 201 ){
+							window.location.reload(false); 
+						}
+					}
+					var json_data = {
+						"name": name,
+						"price": price,
+						"priority": highlight,
+						"category": category,
+						"available": available,
+						"id_promotion": id_promotion
+					};
+					var formatted_json = JSON.stringify(json_data);
+
+					request.open("POST", "http://localhost:8080/product/add", true);
+					request.setRequestHeader("Content-type", "application/json");
+					request.send(formatted_json);
 				}
+
 			}
 
-			var json_data = {
-				"id": id,
-				"name": name,
-				"price": price,
-				"priority": highlight,
-				"category": category,
-				"available": available,
-				"id_promotion": id_promotion
-			};
-			var formatted_json = JSON.stringify(json_data);
-
-			request.open("POST", "http://localhost:8080/product/update", true);
-			request.setRequestHeader("Content-type", "application/json");
-			request.send(formatted_json);
-		}else{
-			var request = new XMLHttpRequest();
-
-			request.onreadystatechange = function(){
-				if( request.readyState == 4 && request.status == 201 ){
-					window.location.reload(false); 
-				}
-			}
-			var json_data = {
-				"name": name,
-				"price": price,
-				"priority": highlight,
-				"category": category,
-				"available": available,
-				"id_promotion": id_promotion
-			};
-			var formatted_json = JSON.stringify(json_data);
-
-			request.open("POST", "http://localhost:8080/product/add", true);
-			request.setRequestHeader("Content-type", "application/json");
-			request.send(formatted_json);
 		}
 		
 	}
@@ -181,52 +221,60 @@ function sendMenu(){
 		errorlog.innerHTML = '<div class="alert alert-warning"><strong>Champ(s) manquant(s)</strong></div>';
 		errorlog.hidden = false;
 	}else{
-		errorlog.innerHTML = '';
-		errorlog.hidden = true;
-		if(id !== ""){
-			var request = new XMLHttpRequest();
 
-			request.onreadystatechange = function(){
-				if( request.readyState == 4 && request.status == 204 ){
-					window.location.reload(false); 
+		if(!checkAlphaNum(name) || !checkAlphaNum(description)){
+			errorlog.innerHTML = '<div class="alert alert-warning"><strong>Champ(s) de texte incompréhensibles</strong></div>';
+			errorlog.hidden = false;
+		}
+		else{
+			errorlog.innerHTML = '';
+			errorlog.hidden = true;
+			if(id !== ""){
+				var request = new XMLHttpRequest();
+
+				request.onreadystatechange = function(){
+					if( request.readyState == 4 && request.status == 204 ){
+						window.location.reload(false); 
+					}
 				}
+
+				var json_data = {
+					"id": id,
+					"name": name,
+					"description": description,
+					"highlight": highlight,
+					"size": size,
+					"available": available,
+					"id_promotion": id_promotion
+				};
+				var formatted_json = JSON.stringify(json_data);
+
+				request.open("POST", "http://localhost:8080/menu/updateMenu", true);
+				request.setRequestHeader("Content-type", "application/json");
+				request.send(formatted_json);
+			}else{
+				var request = new XMLHttpRequest();
+
+				request.onreadystatechange = function(){
+					if( request.readyState == 4 && request.status == 204 ){
+						window.location.reload(false); 
+					}
+				}
+				var json_data = {
+					"name": name,
+					"description": description,
+					"highlight": highlight,
+					"size": size,
+					"available": available,
+					"id_promotion": id_promotion
+				};
+				var formatted_json = JSON.stringify(json_data);
+
+				request.open("POST", "http://localhost:8080/menu/addMenu", true);
+				request.setRequestHeader("Content-type", "application/json");
+				request.send(formatted_json);
 			}
 
-			var json_data = {
-				"id": id,
-				"name": name,
-				"description": description,
-				"highlight": highlight,
-				"size": size,
-				"available": available,
-				"id_promotion": id_promotion
-			};
-			var formatted_json = JSON.stringify(json_data);
-
-			request.open("POST", "http://localhost:8080/menu/updateMenu", true);
-			request.setRequestHeader("Content-type", "application/json");
-			request.send(formatted_json);
-		}else{
-			var request = new XMLHttpRequest();
-
-			request.onreadystatechange = function(){
-				if( request.readyState == 4 && request.status == 204 ){
-					window.location.reload(false); 
-				}
-			}
-			var json_data = {
-				"name": name,
-				"description": description,
-				"highlight": highlight,
-				"size": size,
-				"available": available,
-				"id_promotion": id_promotion
-			};
-			var formatted_json = JSON.stringify(json_data);
-
-			request.open("POST", "http://localhost:8080/menu/addMenu", true);
-			request.setRequestHeader("Content-type", "application/json");
-			request.send(formatted_json);
 		}
 		
 	}
@@ -393,8 +441,17 @@ function addInMenu(){
 	var position = document.getElementById("position").value;
 
 	if(id === "" || id_menu === "" || price_in === ""  || position === "" ){
-		alert("Champ(s) vide(s)");
+		errorlog.innerHTML = '<div class="alert alert-warning"><strong>Champ(s) manquant(s)</strong></div>';
+		errorlog.hidden = false;
 	}else{
+		if(isNan(price_in) || !isInteger(position)){
+			errorlog.innerHTML = '<div class="alert alert-warning"><strong>Prix ou position impossible</strong></div>';
+			errorlog.hidden = false;
+		}
+		else{
+
+			errorlog.innerHTML = '';
+			errorlog.hidden = true;
 			var request = new XMLHttpRequest();
 
 			request.onreadystatechange = function(){
@@ -414,7 +471,9 @@ function addInMenu(){
 			request.open("POST", "http://localhost:8080/menu/addProductToMenu", true);
 			request.setRequestHeader("Content-type", "application/json");
 			request.send(formatted_json);
-	}
+		}
+
+		}
 
 }
 

@@ -25,16 +25,25 @@ productRouter.post('/add', Admin.verifyToken, function(req, res){
 		available = 0;
 	}
 	if(id_promotion === undefined || id_promotion === 0 || id_promotion === ""){
-		id_promotion = 0;
+		ProductController.add(name, price, highlight, category, available, null)
+		.then((product) =>{
+			res.status(201).json(product);
+		})
+		.catch((err) =>{
+			res.status(500).end();
+		})
+
+	}else{
+		ProductController.add(name, price, highlight, category, available, id_promotion)
+		.then((product) =>{
+			res.status(201).json(product);
+		})
+		.catch((err) =>{
+			res.status(500).end();
+		})
+
 	}
-	ProductController.add(name, price, highlight, category, available, id_promotion)
-	.then((product) =>{
-		res.status(201).json(product);
-	})
-	.catch((err) =>{
-		res.status(500).end();
-	})
-});
+	});
 
 productRouter.post('/update', Admin.verifyToken, function(req, res){
 	if(req.body.id === undefined){

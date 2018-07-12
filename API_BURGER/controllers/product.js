@@ -35,9 +35,6 @@ ProductController.update = function(id, name, price, highlight, category, availa
 	if(id_promotion !== undefined){
 		options.id_promotion = id_promotion;
 	}
-	if(id_promotion === null){
-		options.id_promotion = undefined;
-	}
 
 	return Product.update(options, {returning: true, where: {id: id}});
 }

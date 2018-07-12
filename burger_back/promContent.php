@@ -21,7 +21,7 @@
 <br><br>
 <div class="row">
   <div class="col-md-12">
-    <div id="errorLogProm" class="offset-md-3" hidden>
+    <div id="errorLogProm" class="offset-md-3 col-md-6" hidden>
     </div>
     <form>
       <div class="form-row">
@@ -46,11 +46,11 @@
       <div class="form-row">
         <div class="form-group offset-md-5 col-md-2">
           <label>Date de début</label>
-          <input class="form-control" type="date" name="start_date" id="start_date">
+          <input class="form-control" type="text" name="start_date" id="start_date">   
         </div>
         <div class="form-group col-md-2">
           <label>Date de fin</label>
-          <input class="form-control" type="date" name="end_date" id="end_date">
+          <input class="form-control" type="text" name="end_date" id="end_date">
         </div>
       </div>
     </form>
@@ -59,3 +59,5 @@
     <button class="offset-md-2 col-md-2 btn btn-success" type="button" value="" onclick="sendProm()">Envoyer</button>
   </div>
 </div>
+
+

@@ -30,7 +30,7 @@
 <br>
 <div class="row">
   <div class="col-md-12">
-  <div id="errorLogMenu" class="offset-md-3" hidden>
+  <div id="errorLogMenu" class="offset-md-3 col-md-6" hidden>
     </div>
     <form>
       <div class="form-row">
