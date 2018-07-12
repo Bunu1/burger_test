@@ -27,7 +27,7 @@
         	</div>
         	</br>
         	<div class="row">
-        		<div class="btn btn-info offset-md-3 col-md-6" onclick="login()">
+        		<div id="loginBtn" class="btn btn-info offset-md-3 col-md-6" onclick="login()">
 					<strong class="h1">Login</strong>
         		</div>		
         	</div>
