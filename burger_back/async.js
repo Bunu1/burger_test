@@ -35,7 +35,7 @@ function checkAlphaNum(str){
 		code = str.charCodeAt(i);
 		if (!(code > 47 && code < 58) &&
 		    !(code > 64 && code < 91) &&
-		    !(code > 96 && code < 123)) {
+		    !(code > 96 && code < 123) && !(code == 32)) {
 		  return false;
 		}
 	}
@@ -482,9 +482,11 @@ function deleteFromMenu(){
 	var id_prod = document.getElementById("produit_out").value;
 	var position = document.getElementById("position_out").value;
 
-	if(id === "" || id_menu === "" ){
-		alert("Champ(s) vide(s)");
+	if(id === "" || id_menu === "" || position === ""){
+		errorlog.innerHTML = '<div class="alert alert-warning"><strong>Champ(s) manquant(s)</strong></div>';
+		errorlog.hidden = false;
 	}else{
+
 			var request = new XMLHttpRequest();
 
 			request.onreadystatechange = function(){
