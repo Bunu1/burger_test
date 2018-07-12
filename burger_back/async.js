@@ -1,3 +1,10 @@
+/*pm.test('GetPromotion', function(){
+    var data = pm.response.json()
+    date.forEach((prom) => {
+        pm.expect(Object.keys(prom).length).to.equal(6)
+    })
+})*/
+
 function displayBackContent(type){
 	var content = document.getElementById("back-content");
 	var request = new XMLHttpRequest();
@@ -142,7 +149,7 @@ function sendProd(){
 			errorlog.hidden = false;
 		}
 		else{
-			if(isNan(price)){
+			if(isNaN(price) || price<= 0){
 				errorlog.innerHTML = '<div class="alert alert-warning"><strong>Prix impossible</strong></div>';
 				errorlog.hidden = false;
 			}else{
