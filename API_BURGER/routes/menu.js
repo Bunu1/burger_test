@@ -48,7 +48,7 @@ menuRouter.post('/addMenu', Admin.verifyToken, function(req, res) {
   });
 });
 
-menuRouter.post('/updateMenu', Admin.verifyToken, function(req, res) {
+menuRouter.put('/updateMenu', Admin.verifyToken, function(req, res) {
   const id = req.body.id;
   const name = req.body.name;
   const description = req.body.description;
@@ -72,11 +72,12 @@ menuRouter.post('/updateMenu', Admin.verifyToken, function(req, res) {
   });
 });
 
-menuRouter.get('/removeMenu/:id', Admin.verifyToken, function(req, res) {
+menuRouter.delete('/removeMenu/:id', Admin.verifyToken, function(req, res) {
   const id = parseInt(req.params.id);
   MenuController.removeMenu(id)
   .then((menu) => {
-    res.status(201).end();
+      console.log("menu = " + menu)
+      res.status(200).json(menu);
   })
   .catch((err) => {
     console.error(err);

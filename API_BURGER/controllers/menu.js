@@ -19,20 +19,22 @@ MenuController.updateMenu = function(id, name, description, highlight, size, ava
   return MenuController.findMenu(id)
   .then((menu) => {
     if(menu) {
-      if(name === undefined) name = menu.name;
-      if(description === undefined) description = menu.description;
-      if(highlight === undefined) highlight = menu.highlight;
-      if(size === undefined) size = menu.size;
-      if(available === undefined) available = menu.available;
-      if(id_promotion === undefined) id_promotion = menu.id_promotion;
-      menu.updateAttributes({
+        if(name === undefined) name = menu.name;
+        if(description === undefined) description = menu.description;
+        if(highlight === undefined) highlight = menu.highlight;
+        if(size === undefined) size = menu.size;
+        if(available === undefined) available = menu.available;
+        if(id_promotion === undefined) id_promotion = menu.id_promotion;
+        menu.updateAttributes({
         name: name,
-        description: description,
-        highlight: highlight,
-        size: size,
-        available: available,
-        id_promotion: id_promotion
-      });
+            description: description,
+            highlight: highlight,
+            size: size,
+            available: available,
+            id_promotion: id_promotion
+        });
+
+        return menu;
     }
   })
   .catch(function(err){
@@ -47,7 +49,7 @@ MenuController.removeMenu = function(id) {
     }
   })
   .then(function() {
-    Menu.destroy({
+    return Menu.destroy({
       where: {
         id: id
       }

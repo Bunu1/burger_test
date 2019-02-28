@@ -25,11 +25,9 @@ commandRouter.get('/getCommand', function(req,res){
 		res.status(400).end();
 		return;
 	}
-	
 	CommandController.getCommand(req.query.id_command)
-	.then((command) => {
-		console.log(command)
-		res.status(200).json(command);
+	.then((commands) => {
+		res.json(commands);
 	})
 	.catch((err) =>{
 		console.log(err);
@@ -38,15 +36,12 @@ commandRouter.get('/getCommand', function(req,res){
 });
 
 commandRouter.post('/add', function(req, res){
-	if(req.body.commandProduct === undefined || req.body.total === undefined){
+	if( req.body.commandProduct === undefined || req.body.total === undefined){
 		res.status(400).end();
 		return;
 	}
-	
-	console.log(req.body.total + " " + req.body.date);
 	CommandController.add(req.body.total, req.body.date, req.body.commandProduct)
 	.then((command) =>{
-		console.log(command);
 		res.status(201).json(command);
 	})
 	.catch((err) =>{
@@ -54,19 +49,16 @@ commandRouter.post('/add', function(req, res){
 	})
 });
 
-commandRouter.post('/addInCommand', /*Admin.verifyToken,*/ function(req, res){
+commandRouter.post('/addInCommand', Admin.verifyToken, function(req, res){
 	if(req.body.id_command === undefined || req.body.id_product === undefined){
 		res.status(400).end();
 		return;
 	}
-	
-	if(req.body.id_menu === undefined) req.body.id_menu = undefined;
-	
 	CommandController.addInCommand(req.body.id_command, req.body.id_product, req.body.id_menu)
-	.then((p) => {
-		res.status(201).json(p);
-	})
-	.catch((err) => {
+    .then((ret) => {
+        res.status(201).json(ret);
+    })
+    .catch((err) =>{
 		res.status(500).end();
 	});
 });
@@ -77,11 +69,13 @@ commandRouter.post('/update', Admin.verifyToken, function(req, res){
 		return;
 	}
 	CommandController.update(req.body.id, req.body.total, req.body.done, req.body.date)
+    .then((rep) => {
+        res.status(202).end();
+    })
 	.catch((err) =>{
 		console.log(err);
 		res.status(500).end();
 	})
-	res.status(204).end();
 });
 
 commandRouter.post('/delete', Admin.verifyToken, function(req, res){
@@ -89,8 +83,13 @@ commandRouter.post('/delete', Admin.verifyToken, function(req, res){
 		res.status(400).end();
 		return;
 	}
-	CommandController.delete(req.body.id_command);
-	res.status(204).end();
+	CommandController.delete(req.body.id_command)
+    .then((del) => {
+        res.status(200).json(del);
+    })
+    .catch((err) => {
+        res.status(204).end();
+    })
 });
 
 commandRouter.post('/deleteInCommand', Admin.verifyToken, function(req, res){
