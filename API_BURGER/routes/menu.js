@@ -106,7 +106,7 @@ menuRouter.post('/addProductToMenu', Admin.verifyToken, function(req, res) {
   })
 });
 
-menuRouter.post('/removeProductFromMenu', Admin.verifyToken, function(req, res) {
+menuRouter.delete('/removeProductFromMenu', Admin.verifyToken, function(req, res) {
   const id_product = req.body.id_product;
   const id_menu = req.body.id_menu;
   const position = req.body.position;
@@ -158,7 +158,9 @@ menuRouter.post('/findPriceMenu', function(req, res) {
   }
   MenuController.findPriceMenu(req.body.id_menu, req.body.id_product, req.body.position)
   .then((menu) => {
-    res.json(menu);
+      if(menu.length !== 0)
+          res.json(menu);
+      res.status(500).end();
   })
   .catch((err) => {
     console.error(err);

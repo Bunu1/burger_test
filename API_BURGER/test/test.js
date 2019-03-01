@@ -150,14 +150,14 @@ describe('Commands' , function () {
         it('deleteCommand', function(done) {
             console.log("ID = " + test_id)
             request
-                .post('/command/delete')
+                .delete('/command/delete')
                 .set("Content-Type", "application/json")
                 .send({
                     "id_command": test_id
                 })
                 .expect(200)
                 .end(function(err,res) {
-                    console.log(res.body);
+                    res.body.should.be.aboveOrEqual(1);
                     done();
                 });
         });
@@ -229,6 +229,71 @@ describe('Menu', function() {
                 .delete('/menu/removeMenu/' + menu_test)
                 .expect(200)
                 .end(done);
+        });
+    });
+    
+    describe('addProductToMenu', function() {
+        it('productToMenu', function(done) {
+            request
+                .post('/menu/addProductToMenu')
+                .set("Content-Type", "application/json")
+                .send({
+                    "id_product": 13,
+                    "id_menu": 8,
+                    "price": 15,
+                    "position": 2
+                })
+                .expect(201)
+                .end(function(err, res) {
+                    res.body.id_product.should.equal(13);
+                    res.body.id_menu.should.equal(8);
+                    res.body.price.should.equal(15);
+                    res.body.position.should.equal(2);
+                
+                    done();
+                })
+                
+        });
+    });
+    
+    describe('findPriceMenu', function() {
+        it('itemPrice', function(done) {
+            request
+                .post('/menu/findPriceMenu')
+                .set("Content-Type", "application/json")
+                .send({
+                    "id_menu": 8,
+                    "id_product": 13,
+                    "position": 2
+                })
+                .expect(200)
+                .end(function(err, res) {
+                    res.body[0].id_menu.should.equal(8);
+                    res.body[0].id_product.should.equal(13);
+                    res.body[0].position.should.equal(2);
+                    res.body[0].price.should.equal(15);
+
+                    done();
+                })
+                
+        });
+    });
+    
+    describe('removeProductFromMenu', function() {
+        it('remove', function(done) {
+            request
+                .delete('/menu/removeProductFromMenu')
+                .set("Content-Type", "application/json")
+                .send({
+                    "id_product": 13,
+                    "id_menu": 8,
+                    "position": 2
+                })
+                .expect(201)
+                .end(function(err, res) {
+                    res.body.should.be.aboveOrEqual(1);
+                    done();
+                });
         });
     });
 });

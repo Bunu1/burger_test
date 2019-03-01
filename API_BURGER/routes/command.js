@@ -78,7 +78,7 @@ commandRouter.post('/update', Admin.verifyToken, function(req, res){
 	})
 });
 
-commandRouter.post('/delete', Admin.verifyToken, function(req, res){
+commandRouter.delete('/delete', Admin.verifyToken, function(req, res){
 	if(req.body.id_command === undefined){
 		res.status(400).end();
 		return;

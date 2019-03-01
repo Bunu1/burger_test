@@ -80,7 +80,7 @@ CommandController.update = function(id, total, done, date){
 CommandController.delete = function(id){
 	return Command.destroy({where: {id: id}})
 	.then(function(product){
-		ModelIndex.ProductCommand.destroy({where: {id: id}});
+		return ModelIndex.ProductCommand.destroy({where: {id: id}});
 	});
 }
 
